@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daftar Anggota</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:replace="~{fragments/layout :: menu('anggota')}"></nav>
+<main>
+    <h1>Daftar Anggota</h1>
+
+    <div th:replace="~{fragments/layout :: pesan}"></div>
+
+    <p th:if="${#lists.isEmpty(daftarAnggota)}">Belum ada anggota.</p>
+
+    <table th:unless="${#lists.isEmpty(daftarAnggota)}">
+        <tr><th>ID</th><th>Nama</th><th>Batas Pinjam</th><th>Aksi</th></tr>
+        <tr th:each="a : ${daftarAnggota}">
+            <td th:text="${a.idAnggota}">A001</td>
+            <td th:text="${a.nama}">Nama</td>
+            <td th:text="${a.batasPinjam}">0</td>
+            <td>
+                <details>
+                    <summary>Ubah</summary>
+                    <form class="baris" th:action="@{/anggota/{id}/ubah(id=${a.idAnggota})}" method="post">
+                        <input name="nama" th:value="${a.nama}" required>
+                        <input name="batasPinjam" type="number" min="1" th:value="${a.batasPinjam}" required>
+                        <button type="submit">Simpan</button>
+                    </form>
+                </details>
+                <form th:action="@{/anggota/{id}/hapus(id=${a.idAnggota})}" method="post" style="display:inline">
+                    <button class="bahaya" type="submit" onclick="return confirm('Hapus anggota ini?')">Hapus</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <div class="kartu" style="margin-top:20px">
+        <h2>Tambah Anggota</h2>
+        <form class="baris" th:action="@{/anggota}" method="post">
+            <input name="idAnggota" placeholder="ID" required>
+            <input name="nama" placeholder="Nama" required>
+            <input name="batasPinjam" type="number" min="1" value="2" required>
+            <button type="submit">Simpan</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

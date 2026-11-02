@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav class="menu" th:fragment="menu(aktif)">
+    <span class="brand">Perpustakaan</span>
+    <a th:href="@{/}" th:classappend="${aktif == 'beranda'} ? 'aktif'">Beranda</a>
+    <a th:href="@{/buku}" th:classappend="${aktif == 'buku'} ? 'aktif'">Buku</a>
+    <a th:href="@{/anggota}" th:classappend="${aktif == 'anggota'} ? 'aktif'">Anggota</a>
+    <a th:href="@{/peminjaman}" th:classappend="${aktif == 'peminjaman'} ? 'aktif'">Peminjaman</a>
+</nav>
+
+<div th:fragment="pesan">
+    <p class="ok" th:if="${pesan}" th:text="${pesan}"></p>
+    <p class="error" th:if="${pesanError}" th:text="${pesanError}"></p>
+</div>
+
+</body>
+</html>

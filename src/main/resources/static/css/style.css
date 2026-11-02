@@ -1,0 +1,29 @@
+:root { --biru: #1f4e79; --abu: #f3f5f8; --garis: #d5dae1; }
+* { box-sizing: border-box; }
+body { font-family: system-ui, Arial, sans-serif; margin: 0; background: var(--abu); color: #1d2733; }
+.menu { background: var(--biru); display: flex; gap: 4px; align-items: center; padding: 0 24px; }
+.menu .brand { color: #fff; font-weight: 700; margin-right: 16px; }
+.menu a { color: #dce8f5; text-decoration: none; padding: 14px 14px; }
+.menu a:hover { background: rgba(255,255,255,.12); }
+.menu a.aktif { background: #fff; color: var(--biru); font-weight: 600; }
+main { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+h1 { margin-top: 0; }
+.kartu { background: #fff; border: 1px solid var(--garis); border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; }
+.ringkasan { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.ringkasan .kartu { margin: 0; text-align: center; }
+.ringkasan .angka { font-size: 2rem; font-weight: 700; color: var(--biru); }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { border: 1px solid var(--garis); padding: 8px 10px; text-align: left; vertical-align: top; }
+th { background: #e8eef5; }
+input, select, button { padding: 7px 10px; font: inherit; }
+button { cursor: pointer; background: var(--biru); color: #fff; border: 0; border-radius: 4px; }
+button.bahaya { background: #b3261e; }
+form.baris { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.ok { background: #e3f4e5; color: #1b5e20; border: 1px solid #a5d6a7; padding: 10px 14px; border-radius: 6px; }
+.error { background: #fdeceb; color: #8c1d18; border: 1px solid #f1aeb5; padding: 10px 14px; border-radius: 6px; }
+.badge { padding: 2px 8px; border-radius: 10px; font-size: .85em; }
+.badge.telat { background: #fdeceb; color: #8c1d18; }
+.badge.normal { background: #e3f4e5; color: #1b5e20; }
+.badge.habis { background: #fff3cd; color: #7a5b00; }
+details summary { cursor: pointer; color: var(--biru); }
+.catatan { color: #5b6673; font-size: .9em; }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Peminjaman Buku</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:replace="~{fragments/layout :: menu('peminjaman')}"></nav>
+<main>
+    <h1>Peminjaman dan Pengembalian</h1>
+
+    <div th:replace="~{fragments/layout :: pesan}"></div>
+
+    <div class="kartu">
+        <h2>Pinjam Buku</h2>
+        <form class="baris" th:action="@{/peminjaman}" method="post">
+            <select name="idAnggota" required>
+                <option value="">-- pilih anggota --</option>
+                <option th:each="a : ${daftarAnggota}" th:value="${a.idAnggota}"
+                        th:text="${a.idAnggota + ' - ' + a.nama + ' (maks ' + a.batasPinjam + ' buku)'}"></option>
+            </select>
+            <select name="idBuku" required>
+                <option value="">-- pilih buku --</option>
+                <option th:each="b : ${bukuTersedia}" th:value="${b.idBuku}"
+                        th:text="${b.idBuku + ' - ' + b.judul + ' (stok ' + b.stok + ')'}"></option>
+            </select>
+            <button type="submit">Pinjam</button>
+        </form>
+        <p class="catatan">
+            Lama pinjam <span th:text="${lamaPinjam}">7</span> hari.
+            Denda <span th:text="'Rp ' + ${#numbers.formatInteger(dendaPerHari, 1, 'POINT')}">Rp 1.000</span> per hari keterlambatan.
+        </p>
+    </div>
+
+    <h2>Sedang Dipinjam</h2>
+    <p th:if="${#lists.isEmpty(pinjamanAktif)}">Tidak ada pinjaman aktif.</p>
+    <table th:unless="${#lists.isEmpty(pinjamanAktif)}">
+        <tr>
+            <th>No</th><th>Anggota</th><th>Buku</th><th>Tgl Pinjam</th>
+            <th>Jatuh Tempo</th><th>Status</th><th>Estimasi Denda</th><th>Aksi</th>
+        </tr>
+        <tr th:each="p : ${pinjamanAktif}">
+            <td th:text="${p.idPeminjaman}">1</td>
+            <td th:text="${p.anggota.nama}">Nama</td>
+            <td th:text="${p.buku.judul}">Judul</td>
+            <td th:text="${#temporals.format(p.tglPinjam, 'dd-MM-yyyy')}">01-01-2026</td>
+            <td th:text="${#temporals.format(p.tglJatuhTempo, 'dd-MM-yyyy')}">08-01-2026</td>
+            <td>
+                <span class="badge telat" th:if="${p.terlambat}">Terlambat</span>
+                <span class="badge normal" th:unless="${p.terlambat}">Dipinjam</span>
+            </td>
+            <td th:text="'Rp ' + ${#numbers.formatInteger(p.estimasiDenda, 1, 'POINT')}">Rp 0</td>
+            <td>
+                <form th:action="@{/peminjaman/{id}/kembali(id=${p.idPeminjaman})}" method="post">
+                    <button type="submit">Kembalikan</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <h2 style="margin-top:28px">Riwayat Pengembalian</h2>
+    <p th:if="${#lists.isEmpty(riwayat)}">Belum ada riwayat.</p>
+    <table th:unless="${#lists.isEmpty(riwayat)}">
+        <tr>
+            <th>No</th><th>Anggota</th><th>Buku</th><th>Tgl Pinjam</th>
+            <th>Tgl Kembali</th><th>Denda</th>
+        </tr>
+        <tr th:each="p : ${riwayat}">
+            <td th:text="${p.idPeminjaman}">1</td>
+            <td th:text="${p.anggota.nama}">Nama</td>
+            <td th:text="${p.buku.judul}">Judul</td>
+            <td th:text="${#temporals.format(p.tglPinjam, 'dd-MM-yyyy')}">01-01-2026</td>
+            <td th:text="${#temporals.format(p.tglKembali, 'dd-MM-yyyy')}">09-01-2026</td>
+            <td th:text="'Rp ' + ${#numbers.formatInteger(p.denda, 1, 'POINT')}">Rp 0</td>
+        </tr>
+    </table>
+</main>
+</body>
+</html>

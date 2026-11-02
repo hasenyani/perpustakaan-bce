@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Beranda - Perpustakaan</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:replace="~{fragments/layout :: menu('beranda')}"></nav>
+<main>
+    <h1>Sistem Informasi Perpustakaan</h1>
+
+    <div class="ringkasan">
+        <div class="kartu"><div class="angka" th:text="${jumlahJudul}">0</div>Judul buku</div>
+        <div class="kartu"><div class="angka" th:text="${jumlahStok}">0</div>Eksemplar tersedia</div>
+        <div class="kartu"><div class="angka" th:text="${jumlahAnggota}">0</div>Anggota</div>
+        <div class="kartu"><div class="angka" th:text="${jumlahAktif}">0</div>Sedang dipinjam</div>
+        <div class="kartu"><div class="angka" th:text="${jumlahTerlambat}">0</div>Terlambat</div>
+    </div>
+
+    <div class="kartu">
+        <p>Alur utama: tambah <a th:href="@{/buku}">buku</a> dan <a th:href="@{/anggota}">anggota</a>,
+           lalu catat <a th:href="@{/peminjaman}">peminjaman dan pengembalian</a>.</p>
+    </div>
+</main>
+</body>
+</html>

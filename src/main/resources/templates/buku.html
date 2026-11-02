@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daftar Buku</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:replace="~{fragments/layout :: menu('buku')}"></nav>
+<main>
+    <h1>Daftar Buku</h1>
+
+    <div th:replace="~{fragments/layout :: pesan}"></div>
+    <p>Total stok tersedia: <strong th:text="${jumlahStok}">0</strong> eksemplar</p>
+
+    <div class="kartu">
+        <form class="baris" th:action="@{/buku}" method="get">
+            <input name="kata" th:value="${kata}" placeholder="Cari judul">
+            <button type="submit">Cari</button>
+        </form>
+    </div>
+
+    <table>
+        <tr><th>ID</th><th>Judul</th><th>Stok</th><th>Aksi</th></tr>
+        <tr th:each="b : ${daftarBuku}">
+            <td th:text="${b.idBuku}">B001</td>
+            <td th:text="${b.judul}">Judul buku</td>
+            <td>
+                <span class="badge habis" th:if="${b.stok == 0}">Habis</span>
+                <span th:unless="${b.stok == 0}" th:text="${b.stok}">0</span>
+            </td>
+            <td>
+                <details>
+                    <summary>Ubah</summary>
+                    <form class="baris" th:action="@{/buku/{id}/ubah(id=${b.idBuku})}" method="post">
+                        <input name="judul" th:value="${b.judul}" required>
+                        <input name="stok" type="number" min="0" th:value="${b.stok}" required>
+                        <button type="submit">Simpan</button>
+                    </form>
+                </details>
+                <form th:action="@{/buku/{id}/hapus(id=${b.idBuku})}" method="post" style="display:inline">
+                    <button class="bahaya" type="submit" onclick="return confirm('Hapus buku ini?')">Hapus</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <div class="kartu" style="margin-top:20px">
+        <h2>Tambah Buku</h2>
+        <form class="baris" th:action="@{/buku}" method="post">
+            <input name="idBuku" placeholder="ID" required>
+            <input name="judul" placeholder="Judul" required>
+            <input name="stok" type="number" min="0" value="1" required>
+            <button type="submit">Simpan</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

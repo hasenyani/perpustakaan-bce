@@ -1,0 +1,12 @@
+target/
+*.jar
+*.class
+
+# Metadata IDE lokal
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# JDK yang tidak sengaja ikut tersalin ke proyek
+**/oracleJdk-*/
